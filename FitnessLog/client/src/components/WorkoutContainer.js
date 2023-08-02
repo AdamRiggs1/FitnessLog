@@ -1,32 +1,26 @@
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import UserStrengthWorkout from "./UserStrengthWorkout";
 import UserCardioWorkout from "./UserCardioWorkout";
 
 export const WorkoutContainer = () => {
-    const userStrengthWorkoutUrl = '/api/UserStrengthWorkout/'
-    const userCardioWorkoutUrl = '/api/UserCardioWorkout/'
-    const [userStrengthWorkouts, setUserStrengthWorkouts] = useState([])
-    const [userCardioWorkouts, setUserCardioWorkouts] = useState([])
 
-    useEffect(() => {
-        fetch(userStrengthWorkoutUrl).then(res => (res.json())).then(workouts => setUserStrengthWorkouts(workouts))
+    const StrengthWorkout = UserStrengthWorkout();
+    const CardioWorkout = UserCardioWorkout();
 
-    }
-        , []
-    )
-
-    useEffect(() => {
-        fetch(userCardioWorkoutUrl).then(res => (res.json())).then(workouts => setUserCardioWorkouts(workouts))
-    }
-        , []
-    )
+    const navigate = useNavigate();
 
     return (<div>
+        <h4>Strength Workouts</h4>
         <div>
-            {userStrengthWorkouts.map((userStrengthWorkout) => (<UserStrengthWorkout userStrengthWorkout={userStrengthWorkout} key={userStrengthWorkout.id} />))}
+            {StrengthWorkout}
+        </div>
+        <h4>Cardio Workouts</h4>
+        <div>
+            {CardioWorkout}
         </div>
         <div>
-            {userCardioWorkouts.map((userCardioWorkout) => (<UserCardioWorkout userCardioWorkout={userCardioWorkout} key={userCardioWorkout.id} />))}
+            <button onClick={() => navigate()}>Add Workout</button>
         </div>
     </div>
     )

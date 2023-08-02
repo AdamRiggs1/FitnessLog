@@ -1,7 +1,9 @@
 ﻿using FitnessLog.Models;
 using FitnessLog.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FitnessLog.Controllers
 {
@@ -25,6 +27,16 @@ namespace FitnessLog.Controllers
         public IActionResult GetUserProfile(string firebaseUserId)
         {
             return Ok(_userCardioWorkoutRepository.GetByFirebaseUserId(firebaseUserId));
+        }
+
+        [HttpGet("GetMyCardioWorkout")]
+        [Authorize]
+
+        public IActionResult GetUserCardioWorkouts()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return Ok(_userCardioWorkoutRepository.CurrentUsersCardioWorkouts(firebaseUserId));
         }
 
 

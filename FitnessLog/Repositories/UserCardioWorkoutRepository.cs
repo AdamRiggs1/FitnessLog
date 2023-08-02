@@ -22,7 +22,7 @@ namespace FitnessLog.Repositories
 
                       up.[Name], up.Age, up.Email, up.FirebaseUserId,
 
-                    cw.[Name], cw.[Minutes], cw.Speed, cw.TypeId,
+                    cw.[Name] AS CardioWorkoutName, cw.[Minutes], cw.Speed, cw.TypeId,
 
                     wt.Type
                         
@@ -57,7 +57,7 @@ namespace FitnessLog.Repositories
 
                       up.[Name], up.Age, up.Email, up.Minutes, up.FirebaseUserId,
 
-                    cw.[Name], cw.Minutes, cw.Speed, cw.TypeId,
+                    cw.[Name] AS CardioWorkoutName, cw.Minutes, cw.Speed, cw.TypeId,
 
                     wt.Type
                         
@@ -89,7 +89,7 @@ namespace FitnessLog.Repositories
                             CardioWorkout = new CardioWorkout()
                             {
                                 Id = DbUtils.GetInt(reader, "CardioWorkoutId"),
-                                Name= DbUtils.GetString(reader, "Name"),
+                                Name= DbUtils.GetString(reader, "CardioWorkoutName"),
                                 Minutes = DbUtils.GetInt(reader, "Minutes"),
                                 Speed = DbUtils.GetInt(reader, "Speed"),
                                 TypeId = DbUtils.GetInt(reader, "TypeId"),
@@ -107,6 +107,47 @@ namespace FitnessLog.Repositories
                     }
                 }
             }
+
+        public List<UserCardioWorkout> CurrentUsersCardioWorkouts(string firebaseUserId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                      SELECT uc.Id, uc.UserProfileId, uc.CardioWorkoutId,
+                      up.[Name], up.Age, up.Email, up.FirebaseUserId,
+
+                    cw.[Name] AS CardioWorkoutName, cw.Minutes, cw.Speed, cw.TypeId,
+
+                    wt.Type
+                        
+                 FROM UserCardioWorkout uc
+                      LEFT JOIN CardioWorkout cw ON uc.CardioWorkoutId = cw.id
+                      JOIN WorkoutType wt ON cw.TypeId = wt.id
+                      LEFT JOIN UserProfile up ON uc.UserProfileId = up.id
+
+                    WHERE up.FirebaseUserId = @firebaseUserId
+                    ";
+
+                    cmd.Parameters.AddWithValue("@firebaseUserId", firebaseUserId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var userCardioWorkouts = new List<UserCardioWorkout>();
+
+                    while (reader.Read())
+                    {
+                        userCardioWorkouts.Add(NewUserCardioWorkoutFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return userCardioWorkouts;
+                }
+            }
+        }
 
         public void Add(UserCardioWorkout userCardioWorkout)
         {
@@ -180,7 +221,7 @@ namespace FitnessLog.Repositories
                     CardioWorkout = new CardioWorkout()
                     {
                         Id = reader.GetInt32(reader.GetOrdinal("CardioWorkoutId")),
-                        Name= reader.GetString(reader.GetOrdinal("Name")),
+                        Name= reader.GetString(reader.GetOrdinal("CardioWorkoutName")),
                         Minutes = reader.GetInt32(reader.GetOrdinal("Minutes")),
                         Speed = reader.GetInt32(reader.GetOrdinal("Speed")),
                         TypeId = reader.GetInt32(reader.GetOrdinal("TypeId")),

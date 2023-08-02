@@ -8,6 +8,8 @@ namespace FitnessLog.Repositories
         List<UserCardioWorkout> GetAll();
 
        UserCardioWorkout GetByFirebaseUserId(string firebaseUserId);
+
+        List<UserCardioWorkout> CurrentUsersCardioWorkouts(string firebaseUserId);
         void Add(UserCardioWorkout userCardioWorkout);
 
         void Update(UserCardioWorkout userCardioWorkout);

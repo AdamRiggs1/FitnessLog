@@ -28,7 +28,7 @@ namespace FitnessLog.Repositories
 
                       wt.Type
                         
-                 FROM StrengthWorkout cw
+                 FROM StrengthWorkout sw
                       JOIN WorkoutType wt ON sw.TypeId = wt.Id
             ";
                     var reader = cmd.ExecuteReader();
@@ -38,6 +38,53 @@ namespace FitnessLog.Repositories
                     while (reader.Read())
                     {
                         strengthWorkout.Add(NewStrengthWorkoutFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return strengthWorkout;
+                }
+            }
+        }
+
+        public StrengthWorkout GetStrengthWorkoutById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+               SELECT sw.Id, sw.[Name], sw.Weight, sw.Reps, sw.Sets, sw.TypeId,
+
+                      wt.Type
+                        
+                 FROM StrengthWorkout sw
+                      JOIN WorkoutType wt ON sw.TypeId = wt.Id
+
+                 WHERE sw.Id = @id
+            ";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    StrengthWorkout strengthWorkout = null;
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        strengthWorkout = new StrengthWorkout()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Weight = reader.GetInt32(reader.GetOrdinal("Weight")),
+                            Reps = reader.GetInt32(reader.GetOrdinal("Reps")),
+                            Sets = reader.GetInt32(reader.GetOrdinal("Sets")),
+                            TypeId = reader.GetInt32(reader.GetOrdinal("TypeId")),
+                            WorkoutType = new WorkoutType()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Type = reader.GetString(reader.GetOrdinal("Type"))
+                            }
+                        };
                     }
 
                     reader.Close();

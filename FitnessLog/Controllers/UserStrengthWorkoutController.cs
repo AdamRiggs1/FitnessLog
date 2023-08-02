@@ -1,7 +1,9 @@
 ﻿using FitnessLog.Models;
 using FitnessLog.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FitnessLog.Controllers
 {
@@ -15,6 +17,7 @@ namespace FitnessLog.Controllers
             _userStrengthWorkoutRepository = userStrengthWorkoutRepository;
         }
 
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -22,9 +25,20 @@ namespace FitnessLog.Controllers
         }
 
         [HttpGet("{firebaseUserId}")]
-        public IActionResult GetUserProfile(string firebaseUserId)
+        public IActionResult GetStrengthWorkoutByUserProfile(string firebaseUserId)
         {
             return Ok(_userStrengthWorkoutRepository.GetByFirebaseUserId(firebaseUserId));
+        }
+
+        
+        [HttpGet("GetMyStrengthWorkout")]
+        [Authorize]
+       
+        public IActionResult GetUserStrenthWorkouts()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return Ok(_userStrengthWorkoutRepository.CurrentUsersStrengthWorkouts(firebaseUserId));
         }
 
         [HttpPost]
@@ -47,6 +61,12 @@ namespace FitnessLog.Controllers
         {
             _userStrengthWorkoutRepository.Delete(id);
             return Ok(_userStrengthWorkoutRepository.GetAll());
+        }
+
+        private UserStrengthWorkout GetCurrentUserProfile()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userStrengthWorkoutRepository.GetByFirebaseUserId(firebaseUserId);
         }
     }
 }

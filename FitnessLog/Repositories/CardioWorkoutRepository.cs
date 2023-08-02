@@ -46,6 +46,52 @@ namespace FitnessLog.Repositories
             }
         }
 
+        public CardioWorkout GetCardioWorkoutById(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+               SELECT cw.Id, cw.[Name], cw.Minutes, cw.Speed, cw.TypeId,
+
+                      wt.Type
+                        
+                 FROM CardioWorkout cw
+                      JOIN WorkoutType wt ON cw.TypeId = wt.Id
+
+                 WHERE cw.Id = @id
+            ";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    CardioWorkout cardioWorkout = null;
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        cardioWorkout = new CardioWorkout()
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Name = reader.GetString(reader.GetOrdinal("Name")),
+                            Minutes = reader.GetInt32(reader.GetOrdinal("Minutes")),
+                            Speed = reader.GetInt32(reader.GetOrdinal("Speed")),
+                            TypeId = reader.GetInt32(reader.GetOrdinal("TypeId")),
+                            WorkoutType = new WorkoutType()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Type = reader.GetString(reader.GetOrdinal("Type"))
+                            }
+                        };
+                    }
+
+                    reader.Close();
+
+                    return cardioWorkout;
+                }
+            }
+        }
+
         public void Add(CardioWorkout cardioWorkout)
         {
             using (var conn = Connection)
@@ -74,18 +120,20 @@ namespace FitnessLog.Repositories
             using (var conn = Connection)
             {
                 conn.Open();
-                using var cmd = conn.CreateCommand();
-                cmd.CommandText = @"
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
                        UPDATE CardioWorkout
                           SET [Name] = @name, Minutes = @minutes, Speed = @speed, TypeId = @typeId
                         WHERE Id = @id";
-                cmd.Parameters.AddWithValue("@name", cardioWorkout.Name);
-                cmd.Parameters.AddWithValue("@minutes", cardioWorkout.Minutes);
-                cmd.Parameters.AddWithValue("@speed", cardioWorkout.Speed);
-                cmd.Parameters.AddWithValue("@TypeId", cardioWorkout.TypeId);
-                cmd.Parameters.AddWithValue("@id", cardioWorkout.Id);
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@name", cardioWorkout.Name);
+                    cmd.Parameters.AddWithValue("@minutes", cardioWorkout.Minutes);
+                    cmd.Parameters.AddWithValue("@speed", cardioWorkout.Speed);
+                    cmd.Parameters.AddWithValue("@TypeId", cardioWorkout.TypeId);
+                    cmd.Parameters.AddWithValue("@id", cardioWorkout.Id);
+                    cmd.ExecuteNonQuery();
 
+                }
             }
         }
 

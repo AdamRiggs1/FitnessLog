@@ -22,6 +22,17 @@ namespace FitnessLog.Controllers
             return Ok(_strengthWorkoutRepository.GetAll());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var getStrengthWorkoutsId = _strengthWorkoutRepository.GetStrengthWorkoutById(id);
+            if (getStrengthWorkoutsId == null)
+            {
+                return NotFound();
+            }
+            return Ok(getStrengthWorkoutsId);
+        }
+
         [HttpPost]
         public IActionResult AddStrengthWorkout(StrengthWorkout strengthWorkout)
         {

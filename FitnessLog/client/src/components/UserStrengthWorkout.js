@@ -1,18 +1,28 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { getAllStrengthWorkouts } from "../modules/userStrengthWorkoutManager";
+import { UserStrengthWorkoutProperties } from "./UserStrengthWorkoutProperties";
 
-export const UserStrengthWorkout = ({ userStrengthWorkout }) => {
+export const UserStrengthWorkout = () => {
+
+    const [userStrengthWorkouts, setUserStrengthWorkouts] = useState([])
 
     const navigate = useNavigate()
 
+
+
+    useEffect(() => {
+        getAllStrengthWorkouts().then(setUserStrengthWorkouts)
+    }, []);
+
     return (
-        <div>
-            <div>{userStrengthWorkout?.strengthWorkout?.name}</div>
-            <div>{userStrengthWorkout?.strengthWorkout?.weight}</div>
-            <div>{userStrengthWorkout?.strengthWorkout?.reps}</div>
-            <div>{userStrengthWorkout?.strengthWorkout?.sets}</div>
-            <button onClick={() => navigate()}>Edit</button>
-        </div>
-    )
+        <>
+            <div>
+                {userStrengthWorkouts.map((userStrengthWorkout) => (<UserStrengthWorkoutProperties userStrengthWorkout={userStrengthWorkout} key={userStrengthWorkout.id} />))}
+            </div>
+        </>
+    );
+
 }
 
 export default UserStrengthWorkout

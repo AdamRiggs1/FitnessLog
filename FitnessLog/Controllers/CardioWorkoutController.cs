@@ -20,6 +20,19 @@ namespace FitnessLog.Controllers
             return Ok(_cardioWorkoutRepository.GetAll());
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetById(int id)
+        {
+            var getCardioWorkoutsId = _cardioWorkoutRepository.GetCardioWorkoutById(id);
+            if (getCardioWorkoutsId == null)
+            {
+                return NotFound();
+            }
+            return Ok(getCardioWorkoutsId);
+        }
+
+
+
         [HttpPost]
         public IActionResult AddCardioWorkout(CardioWorkout cardioWorkout)
         {
@@ -27,11 +40,11 @@ namespace FitnessLog.Controllers
             return Ok(_cardioWorkoutRepository.GetAll());
         }
 
-        [HttpPut]
-        public IActionResult EditCardiohWorkout(CardioWorkout cardioWorkout)
+        [HttpPut("{id}")]
+        public IActionResult EditCardioWorkout(int id, CardioWorkout cardioWorkout)
         {
             _cardioWorkoutRepository.Update(cardioWorkout);
-            return Ok(_cardioWorkoutRepository.GetAll());
+            return Ok(_cardioWorkoutRepository.GetCardioWorkoutById(id));
         }
 
         [HttpDelete("{id}")]

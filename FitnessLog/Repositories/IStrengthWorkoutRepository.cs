@@ -6,6 +6,7 @@ namespace FitnessLog.Repositories
     public interface IStrengthWorkoutRepository
     {
         List<StrengthWorkout> GetAll();
+        StrengthWorkout GetStrengthWorkoutById(int id);
         void Add(StrengthWorkout strengthWorkout);
 
         void Update(StrengthWorkout strengthWorkout);

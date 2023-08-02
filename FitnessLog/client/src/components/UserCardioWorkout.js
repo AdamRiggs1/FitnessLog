@@ -1,17 +1,28 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { getAllCardioWorkouts } from "../modules/userCardioWorkoutManager";
+import { UserCardioWorkoutProperties } from "./UserCardioWorkoutProperties";
 
-export const UserCardioWorkout = ({ userCardioWorkout }) => {
+export const UserCardioWorkout = () => {
+
+    const [userCardioWorkouts, setUserCardioWorkouts] = useState([])
 
     const navigate = useNavigate()
 
+
+
+    useEffect(() => {
+        getAllCardioWorkouts().then(setUserCardioWorkouts)
+    }, []);
+
     return (
-        <div>
-            <div>{userCardioWorkout.name}</div>
-            <div>{userCardioWorkout.minutes}</div>
-            <div>{userCardioWorkout.speed}</div>
-            <button onClick={() => navigate()}>Edit</button>
-        </div>
-    )
+        <>
+            <div>
+                {userCardioWorkouts.map((userCardioWorkout) => (<UserCardioWorkoutProperties userCardioWorkout={userCardioWorkout} key={userCardioWorkout.id} />))}
+            </div>
+        </>
+    );
+
 }
 
 export default UserCardioWorkout

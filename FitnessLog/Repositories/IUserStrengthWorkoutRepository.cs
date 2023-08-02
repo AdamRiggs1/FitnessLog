@@ -7,6 +7,7 @@ namespace FitnessLog.Repositories
     {
         List<UserStrengthWorkout> GetAll();
         UserStrengthWorkout GetByFirebaseUserId(string firebaseUserId);
+        List<UserStrengthWorkout> CurrentUsersStrengthWorkouts(string firebaseUserId);
         void Add(UserStrengthWorkout userStrengthWorkout);
 
         void Update(UserStrengthWorkout userStrengthWorkout);

@@ -2,6 +2,7 @@
 using FitnessLog.Utils;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 
@@ -21,7 +22,7 @@ namespace FitnessLog.Repositories
                SELECT us.Id, us.UserProfileId, us.StrengthWorkoutId,
                       up.[Name], up.Age, up.Email, up.FirebaseUserId,
 
-                    sw.[Name], sw.Reps, sw.Sets, sw.Weight, sw.TypeId,
+                    sw.[Name] AS StrengthWorkoutName, sw.Reps, sw.Sets, sw.Weight, sw.TypeId,
 
                     wt.Type
                         
@@ -55,16 +56,16 @@ namespace FitnessLog.Repositories
                     cmd.CommandText = @"
                         SELECT us.Id, us.UserProfileId, us.StrengthWorkoutId,
 
-                      up.[Name], up.Age, up.Email, up.Minutes, up.FirebaseUserId,
+                      up.[Name], up.Age, up.Email, up.FirebaseUserId,
 
-                    sw.[Name], sw.Reps, sw.Sets, sw.Weight, sw.TypeId,
+                    sw.[Name] AS StrengthWorkoutName, sw.Reps, sw.Sets, sw.Weight, sw.TypeId,
 
                     wt.Type
                         
-                 FROM UserStrengthWorkout cw
-                      JOIN WorkoutType wt ON c.TypeId = wt.Id
-                      JOIN UserProfile up ON uc.UserProfileId = up.Id
-                      JOIN StrengthWorkout sw ON uc.CardioWorkoutId = sw.Id";
+                 FROM UserStrengthWorkout us
+                      JOIN WorkoutType wt ON sw.TypeId = wt.Id
+                      JOIN UserProfile up ON us.UserProfileId = up.Id
+                      JOIN StrengthWorkout sw ON us.StrengthWorkoutId = sw.Id";
 
                     DbUtils.AddParameter(cmd, "@FirebaseUserId", firebaseUserId);
 
@@ -89,7 +90,7 @@ namespace FitnessLog.Repositories
                             StrengthWorkout = new StrengthWorkout()
                             {
                                 Id = DbUtils.GetInt(reader, "CardioWorkoutId"),
-                                Name= DbUtils.GetString(reader, "Name"),
+                                Name= DbUtils.GetString(reader, "StrengthWorkoutName"),
                                 Reps = DbUtils.GetInt(reader, "Reps"),
                                 Sets = DbUtils.GetInt(reader, "Sets"),
                                 Weight = DbUtils.GetInt(reader, "Weight"),
@@ -105,6 +106,47 @@ namespace FitnessLog.Repositories
                     reader.Close();
 
                     return userStrengthWorkout;
+                }
+            }
+        }
+
+        public List<UserStrengthWorkout> CurrentUsersStrengthWorkouts(string firebaseUserId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                      SELECT us.Id, us.UserProfileId, us.StrengthWorkoutId,
+                      up.[Name], up.Age, up.Email, up.FirebaseUserId,
+
+                    sw.[Name] AS StrengthWorkoutName, sw.Reps, sw.Sets, sw.Weight, sw.TypeId,
+
+                    wt.Type
+                        
+                 FROM UserStrengthWorkout us
+                      LEFT JOIN StrengthWorkout sw ON us.StrengthWorkoutId = sw.id
+                      JOIN WorkoutType wt ON sw.TypeId = wt.id
+                      LEFT JOIN UserProfile up ON us.UserProfileId = up.id
+
+                    WHERE up.FirebaseUserId = @firebaseUserId
+                    ";
+
+                    cmd.Parameters.AddWithValue("@firebaseUserId", firebaseUserId);
+
+                    var reader = cmd.ExecuteReader();
+
+                    var userStrengthWorkouts = new List<UserStrengthWorkout>();
+
+                    while (reader.Read())
+                    {
+                        userStrengthWorkouts.Add(NewUserStrengthWorkoutFromReader(reader));
+                    }
+
+                    reader.Close();
+
+                    return userStrengthWorkouts;
                 }
             }
         }
@@ -181,7 +223,7 @@ namespace FitnessLog.Repositories
                 StrengthWorkout = new StrengthWorkout()
                 {
                     Id = reader.GetInt32(reader.GetOrdinal("StrengthWorkoutId")),
-                    Name= reader.GetString(reader.GetOrdinal("Name")),
+                    Name= reader.GetString(reader.GetOrdinal("StrengthWorkoutName")),
                     Reps = reader.GetInt32(reader.GetOrdinal("Reps")),
                     Sets = reader.GetInt32(reader.GetOrdinal("Sets")),
                     Weight = reader.GetInt32(reader.GetOrdinal("Weight")),
