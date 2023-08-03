@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react"
-import { getAllCardioWorkouts } from "../modules/userCardioWorkoutManager";
+import { getAllUserCardioWorkouts } from "../modules/userCardioWorkoutManager";
 import { UserCardioWorkoutProperties } from "./UserCardioWorkoutProperties";
 
 export const UserCardioWorkout = () => {
@@ -12,7 +12,7 @@ export const UserCardioWorkout = () => {
 
 
     useEffect(() => {
-        getAllCardioWorkouts().then(setUserCardioWorkouts)
+        getAllUserCardioWorkouts().then(setUserCardioWorkouts)
     }, []);
 
     return (

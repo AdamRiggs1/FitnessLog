@@ -79,6 +79,9 @@ namespace FitnessLog
             services.AddTransient<IUserCardioWorkoutRepository,  UserCardioWorkoutRepository>();
             services.AddTransient<IUserStrengthWorkoutRepository, UserStrengthWorkoutRepository>();
             services.AddTransient<IWorkoutTypeRepository, WorkoutTypeRepository>();
+            services.AddTransient<IFoodRepository, FoodRepository>();
+            services.AddTransient<IUserFoodRepository, UserFoodRepository>();
+            services.AddTransient<IVideoRepository, VideoRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

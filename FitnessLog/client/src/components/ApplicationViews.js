@@ -4,10 +4,14 @@ import Login from "./Login";
 import Register from "./Register";
 import Hello from "./Hello";
 import WorkoutContainer from "./WorkoutContainer";
-import UserStrengthWorkout from "./UserStrengthWorkout";
-import UserCardioWorkout from "./UserCardioWorkout";
 import EditCardioWorkoutForm from "./EditCardioWorkoutForm";
 import EditStrengthWorkoutForm from "./EditStrengthWorkoutForm";
+import FoodList from "./FoodList";
+import EditFoodForm from "./EditFoodForm";
+import VideoList from "./VideoList";
+import AddWorkoutFormContainer from "./AddWorkoutFormContainer";
+import AddFoodForm from "./AddFoodForm";
+import AddVideoForm from "./AddVideoForm";
 
 export default function ApplicationViews({ isLoggedIn, profile }) {
     return (
@@ -34,6 +38,31 @@ export default function ApplicationViews({ isLoggedIn, profile }) {
                         path="editStrength/:strengthWorkoutId"
                         element={isLoggedIn ? < EditStrengthWorkoutForm /> : <Navigate to="/login" />}
                     />
+                    <Route
+                        path="foodList"
+                        element={isLoggedIn ? < FoodList /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="editFood/:foodId"
+                        element={isLoggedIn ? < EditFoodForm /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="workoutFormContainer"
+                        element={isLoggedIn ? < AddWorkoutFormContainer /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="addFoodForm"
+                        element={isLoggedIn ? < AddFoodForm /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="videoList"
+                        element={isLoggedIn ? < VideoList /> : <Navigate to="/login" />}
+                    />
+                    <Route
+                        path="addVideoForm"
+                        element={isLoggedIn ? < AddVideoForm /> : <Navigate to="/login" />}
+                    />
+
 
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />

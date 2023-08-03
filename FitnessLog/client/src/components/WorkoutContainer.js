@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import UserStrengthWorkout from "./UserStrengthWorkout";
 import UserCardioWorkout from "./UserCardioWorkout";
+import "./WorkoutList.css"
 
 export const WorkoutContainer = () => {
 
@@ -11,16 +12,16 @@ export const WorkoutContainer = () => {
     const navigate = useNavigate();
 
     return (<div>
-        <h4>Strength Workouts</h4>
-        <div>
+        <h4 className="strengthWorkout-header">Strength Workouts</h4>
+        <div className="workout-listItems">
             {StrengthWorkout}
         </div>
-        <h4>Cardio Workouts</h4>
-        <div>
+        <h4 className="cardioWorkout-header">Cardio Workouts</h4>
+        <div className="workout-listItems">
             {CardioWorkout}
         </div>
-        <div>
-            <button onClick={() => navigate()}>Add Workout</button>
+        <div className="workout-listButton">
+            <button onClick={() => navigate('/workoutFormContainer')}>Add Workout</button>
         </div>
     </div>
     )

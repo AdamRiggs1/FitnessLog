@@ -158,13 +158,13 @@ namespace FitnessLog.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO UserCardioWorkout (
-                            us.UserProfileId, us.CardioWorkoutId
+                            UserProfileId, CardioWorkoutId)
 
                         OUTPUT INSERTED.ID
                         VALUES (
-                            @userProfileId, @userCardioWorkoutId)";
+                            @userProfileId, @cardioWorkoutId)";
                     cmd.Parameters.AddWithValue("@userProfileId", userCardioWorkout.UserProfileId);
-                    cmd.Parameters.AddWithValue("@cardiohWorkoutId", userCardioWorkout.CardioWorkoutId);
+                    cmd.Parameters.AddWithValue("@cardioWorkoutId", userCardioWorkout.CardioWorkoutId);
 
                     userCardioWorkout.Id = (int)cmd.ExecuteScalar();
                 }

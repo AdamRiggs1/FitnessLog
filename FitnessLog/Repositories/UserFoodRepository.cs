@@ -22,7 +22,7 @@ namespace FitnessLog.Repositories
                SELECT uf.Id, uf.UserProfileId, uf.FoodId,
                       up.[Name], up.Age, up.Email, up.FirebaseUserId,
 
-                    f.[Name] AS FoodName, f.Calories, f.Carbohydrates, f.Calories, f.Fat
+                    f.[Name] AS FoodName, f.Calories, f.Carbohydrates, f.Protein, f.Fat
                         
                  FROM UserFood uf
                       LEFT JOIN Food f ON uf.FoodId = f.id
@@ -83,8 +83,8 @@ namespace FitnessLog.Repositories
                             FoodId = reader.GetInt32(reader.GetOrdinal("FoodId")),
                             Food = new Food()
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("StrengthWorkoutId")),
-                                Name= reader.GetString(reader.GetOrdinal("StrengthWorkoutName")),
+                                Id = reader.GetInt32(reader.GetOrdinal("FoodId")),
+                                Name= reader.GetString(reader.GetOrdinal("FoodName")),
                                 Calories = reader.GetInt32(reader.GetOrdinal("Calories")),
                                 Carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohydrates")),
                                 Protein = reader.GetInt32(reader.GetOrdinal("Protein")),
@@ -115,7 +115,7 @@ namespace FitnessLog.Repositories
                         
                  FROM UserFood uf
                       JOIN UserProfile up ON uf.UserProfileId = up.Id
-                      JOIN Food f ON uf.FoodId = f.Id"";
+                      JOIN Food f ON uf.FoodId = f.Id
 
                     WHERE up.FirebaseUserId = @firebaseUserId
                     ";
@@ -147,11 +147,11 @@ namespace FitnessLog.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO UserFood (
-                            uf.UserProfileId, uf.FoodId,
+                            UserProfileId, FoodId)
 
                         OUTPUT INSERTED.ID
                         VALUES (
-                            @userProfileId, @userStrengthWorkoutId)";
+                            @userProfileId, @foodId)";
                     cmd.Parameters.AddWithValue("@userProfileId", userFood.UserProfileId);
                     cmd.Parameters.AddWithValue("@foodId", userFood.FoodId);
 
@@ -209,8 +209,8 @@ namespace FitnessLog.Repositories
                 FoodId = reader.GetInt32(reader.GetOrdinal("FoodId")),
                 Food = new Food()
                 {
-                    Id = reader.GetInt32(reader.GetOrdinal("StrengthWorkoutId")),
-                    Name= reader.GetString(reader.GetOrdinal("StrengthWorkoutName")),
+                    Id = reader.GetInt32(reader.GetOrdinal("FoodId")),
+                    Name= reader.GetString(reader.GetOrdinal("FoodName")),
                     Calories = reader.GetInt32(reader.GetOrdinal("Calories")),
                     Carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohydrates")),
                     Protein = reader.GetInt32(reader.GetOrdinal("Protein")),

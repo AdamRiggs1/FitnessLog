@@ -70,7 +70,7 @@ namespace FitnessLog.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Calories = reader.GetInt32(reader.GetOrdinal("Calories")),
-                            Carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohyrdates")),
+                            Carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohydrates")),
                             Protein = reader.GetInt32(reader.GetOrdinal("Protein")),
                             Fat = reader.GetInt32(reader.GetOrdinal("Fat"))
                         };
@@ -149,7 +149,7 @@ namespace FitnessLog.Repositories
                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                 Name = reader.GetString(reader.GetOrdinal("Name")),
                 Calories = reader.GetInt32(reader.GetOrdinal("Calories")),
-                Carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohyrdates")),
+                Carbohydrates = reader.GetInt32(reader.GetOrdinal("Carbohydrates")),
                 Protein = reader.GetInt32(reader.GetOrdinal("Protein")),
                 Fat = reader.GetInt32(reader.GetOrdinal("Fat"))
             };

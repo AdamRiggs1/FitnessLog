@@ -1,11 +1,11 @@
 import { getToken } from "./authManager";
 
-const userStrengthWorkoutUrl = '/api/UserStrengthWorkout/GetMyStrengthWorkout/'
-const userStrengthWorkoutsUrl = '/api/UserStrengthWorkout/'
+const userFoodUrl = '/api/UserFood/GetMyFood/'
+const userFoodsUrl = '/api/UserFood/'
 
-export const getAllStrengthWorkouts = () => {
+export const getAllFoods = () => {
     return getToken().then((token) => {
-        return fetch(userStrengthWorkoutUrl, {
+        return fetch(userFoodUrl, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -15,38 +15,38 @@ export const getAllStrengthWorkouts = () => {
                 return resp.json();
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to get workouts.",
+                    "An unknown error occurred while trying to get foods.",
                 );
             }
         });
     });
 };
 
-export const addUserStrengthWorkout = (userStrengthWorkout) => {
+export const addUserFood = (userFood) => {
     return getToken().then((token) => {
-        return fetch(userStrengthWorkoutsUrl, {
+        return fetch(userFoodsUrl, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userStrengthWorkout)
+            body: JSON.stringify(userFood)
         }).then((resp) => {
             if (resp.ok) {
-                console.log("Workout added successfully!")
+                console.log("Food added successfully!")
                 return resp.json();
             } else {
                 throw new Error(
-                    "An error occurred while trying to add a workout",
+                    "An error occurred while trying to add a food",
                 );
             }
         });
     });
 }
 
-export const deleteUserStrengthWorkout = (id) => {
+export const deleteUserFood = (id) => {
     return getToken().then(token => {
-        return fetch(`${userStrengthWorkoutsUrl}/${id}`, {
+        return fetch(`${userFoodsUrl}/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`

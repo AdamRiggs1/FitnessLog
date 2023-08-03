@@ -37,7 +37,7 @@ namespace FitnessLog.Controllers
         public IActionResult AddStrengthWorkout(StrengthWorkout strengthWorkout)
         {
             _strengthWorkoutRepository.Add(strengthWorkout);
-            return Ok(_strengthWorkoutRepository.GetAll());
+            return Ok(strengthWorkout);
         }
 
         [HttpPut]

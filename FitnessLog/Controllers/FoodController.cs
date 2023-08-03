@@ -37,7 +37,7 @@ namespace FitnessLog.Controllers
         public IActionResult AddFood(Food food)
         {
             _foodRepository.Add(food);
-            return Ok(_foodRepository.GetAll());
+            return Ok(food);
         }
 
         [HttpPut]

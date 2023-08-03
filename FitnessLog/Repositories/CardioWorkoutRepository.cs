@@ -107,7 +107,7 @@ namespace FitnessLog.Repositories
                             @name, @minutes, @speed, @typeId)";
                     cmd.Parameters.AddWithValue("@name", cardioWorkout.Name);
                     cmd.Parameters.AddWithValue("@minutes", cardioWorkout.Minutes);
-                    cmd.Parameters.AddWithValue("@speeed", cardioWorkout.Speed);
+                    cmd.Parameters.AddWithValue("@speed", cardioWorkout.Speed);
                     cmd.Parameters.AddWithValue("@typeId", cardioWorkout.TypeId);
 
                     cardioWorkout.Id = (int)cmd.ExecuteScalar();

@@ -1,27 +1,24 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { addStrengthWorkout } from "../modules/strengthWorkoutManager";
-import { addUserStrengthWorkout } from "../modules/userStrengthWorkoutManager";
+import { addFood } from "../modules/foodManager";
+import { addUserFood } from "../modules/userFoodManager";
 import { me } from "../modules/authManager";
 
 
-export const AddStrengthWorkoutForm = () => {
+export const AddFoodForm = () => {
     /*
     TODO: Add the correct default properties to the
     initial state object
     */
     const navigate = useNavigate()
 
-    const [strengthWorkout, setStrengthWorkout] = useState({
+    const [food, setFood] = useState({
         name: "",
-        reps: 0,
-        sets: 0,
-        weight: 0,
-        typeId: 1,
+        calories: 0,
+        carbohydrates: 0,
+        protein: 0,
+        fat: 0
     })
-
-
-
 
     const handleSaveButtonClick = (event) => {
         event.preventDefault()
@@ -29,20 +26,20 @@ export const AddStrengthWorkoutForm = () => {
 
         // TODO: Create the object to be saved to the API
 
-        return addStrengthWorkout(strengthWorkout)
-            .then((strengthWorkoutObject) => {
+        return addFood(food)
+            .then((foodObject) => {
                 me()
                     .then((userProfileObject) => {
-                        const userStrengthWorkout = {
+                        const userFood = {
                             userProfileId: userProfileObject.id,
-                            strengthWorkoutId: strengthWorkoutObject.id
+                            foodId: foodObject.id
                         }
-                        addUserStrengthWorkout(userStrengthWorkout)
+                        addUserFood(userFood)
 
                     })
                     .then(
                         () => {
-                            navigate(`/workoutList`)
+                            navigate(`/foodList`)
                         }
                     )
             })
@@ -51,8 +48,8 @@ export const AddStrengthWorkoutForm = () => {
 
 
     return (<>
-        <form className="addStrengthWorkoutForm">
-            <h2 className="addStrengthWorkoutForm__title">Add Strength Workout</h2>
+        <form className="addFoodForm">
+            <h2 className="addFoodForm__title">Add Food</h2>
 
             <fieldset>
                 <div className="form-group">
@@ -61,13 +58,13 @@ export const AddStrengthWorkoutForm = () => {
                         required autoFocus
                         type="text"
                         className="form-control"
-                        placeholder="name of strength workout"
-                        value={strengthWorkout.name}
+                        placeholder="name of food"
+                        value={food.name}
                         onChange={
                             (evt) => {
-                                const copy = { ...strengthWorkout }
+                                const copy = { ...food }
                                 copy.name = evt.target.value
-                                setStrengthWorkout(copy)
+                                setFood(copy)
                             }
                         } />
                 </div>
@@ -75,18 +72,18 @@ export const AddStrengthWorkoutForm = () => {
 
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="weight"> Amount of Weight:</label>
+                    <label htmlFor="calories"> Calories:</label>
                     <input
                         required autoFocus
                         type="number"
                         className="form-control"
-                        placeholder="amount of weight"
-                        value={strengthWorkout.weight}
+                        placeholder="amount of calories"
+                        value={food.calories}
                         onChange={
                             (evt) => {
-                                const copy = { ...strengthWorkout }
-                                copy.weight = evt.target.value
-                                setStrengthWorkout(copy)
+                                const copy = { ...food }
+                                copy.calories = evt.target.value
+                                setFood(copy)
                             }
                         } />
                 </div>
@@ -94,18 +91,18 @@ export const AddStrengthWorkoutForm = () => {
 
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="address">Amount of Reps:</label>
+                    <label htmlFor="carbohydrates">Carbohydrates:</label>
                     <input
                         required autoFocus
                         type="number"
                         className="form-control"
-                        placeholder="reps"
-                        value={strengthWorkout.reps}
+                        placeholder="carbohydrates"
+                        value={food.carbohydrates}
                         onChange={
                             (evt) => {
-                                const copy = { ...strengthWorkout }
-                                copy.reps = evt.target.value
-                                setStrengthWorkout(copy)
+                                const copy = { ...food }
+                                copy.carbohydrates = evt.target.value
+                                setFood(copy)
                             }
                         } />
                 </div>
@@ -113,30 +110,49 @@ export const AddStrengthWorkoutForm = () => {
 
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="address">Amount of Sets:</label>
+                    <label htmlFor="protein">Protein:</label>
                     <input
                         required autoFocus
                         type="number"
                         className="form-control"
-                        placeholder="sets"
-                        value={strengthWorkout.sets}
+                        placeholder="protein"
+                        value={food.protein}
                         onChange={
                             (evt) => {
-                                const copy = { ...strengthWorkout }
-                                copy.sets = evt.target.value
-                                setStrengthWorkout(copy)
+                                const copy = { ...food }
+                                copy.protein = evt.target.value
+                                setFood(copy)
                             }
                         } />
                 </div>
             </fieldset>
 
-            <section className="strengthWorkout_add_buttons">
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="fat">Fat:</label>
+                    <input
+                        required autoFocus
+                        type="number"
+                        className="form-control"
+                        placeholder="fat"
+                        value={food.fat}
+                        onChange={
+                            (evt) => {
+                                const copy = { ...food }
+                                copy.fat = evt.target.value
+                                setFood(copy)
+                            }
+                        } />
+                </div>
+            </fieldset>
+
+            <section className="food_add_buttons">
                 <button
                     onClick={(clickEvent) => handleSaveButtonClick(clickEvent)}
                     className="btn btn-primary">
                     Submit Changes
                 </button>
-                <button className="strength_add_back" onClick={() => { navigate("/workoutList") }}>Cancel Add Workout</button>
+                <button className="food_add_back" onClick={() => { navigate("/foodList") }}>Cancel Add Food</button>
             </section>
         </form>
     </>
@@ -145,4 +161,4 @@ export const AddStrengthWorkoutForm = () => {
 
 }
 
-export default AddStrengthWorkoutForm
+export default AddFoodForm

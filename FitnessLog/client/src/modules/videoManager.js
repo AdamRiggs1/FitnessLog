@@ -1,11 +1,10 @@
 import { getToken } from "./authManager";
 
-const userCardioWorkoutUrl = '/api/UserCardioWorkout/GetMyCardioWorkout/'
-const userCardioWorkoutsUrl = 'api/UserCardioWorkout/'
+const videoUrl = '/api/Video/'
 
-export const getAllCardioWorkouts = () => {
+export const getAllVideos = () => {
     return getToken().then((token) => {
-        return fetch(userCardioWorkoutsUrl, {
+        return fetch(`${videoUrl}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -15,16 +14,16 @@ export const getAllCardioWorkouts = () => {
                 return resp.json();
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to get workouts.",
+                    "An unknown error occurred while trying to get video.",
                 );
             }
         });
     });
 };
 
-export const getAllUserCardioWorkouts = () => {
+export const getVideobyId = (id) => {
     return getToken().then((token) => {
-        return fetch(userCardioWorkoutUrl, {
+        return fetch(`${videoUrl}/${id}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -34,38 +33,60 @@ export const getAllUserCardioWorkouts = () => {
                 return resp.json();
             } else {
                 throw new Error(
-                    "An unknown error occurred while trying to get workouts.",
+                    "An unknown error occurred while trying to get video.",
                 );
             }
         });
     });
 };
 
-export const addUserCardioWorkout = (userCardioWorkout) => {
+export const addVideo = (video) => {
     return getToken().then((token) => {
-        return fetch(userCardioWorkoutsUrl, {
+        return fetch(videoUrl, {
             method: "POST",
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(userCardioWorkout)
+            body: JSON.stringify(video)
         }).then((resp) => {
             if (resp.ok) {
-                console.log("Workout added successfully!")
+                console.log("Video added successfully!")
                 return resp.json();
             } else {
                 throw new Error(
-                    "An error occurred while trying to add a workout",
+                    "An error occurred while trying to add video",
                 );
             }
         });
     });
 }
 
-export const deleteUserCardioWorkout = (id) => {
+export const updateVideo = (video) => {
+    return getToken().then((token) => {
+        return fetch(videoUrl, {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(video)
+        }).then((resp) => {
+            if (resp.ok) {
+                console.log("Video edited successfully!")
+                return resp.json();
+            } else {
+                throw new Error(
+                    "An error occurred while trying to edit video",
+                );
+            }
+        });
+    });
+}
+
+export const deleteVideo = (id) => {
     return getToken().then(token => {
-        return fetch(`${userCardioWorkoutsUrl}/${id}`, {
+        return fetch(`${videoUrl}/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${token}`

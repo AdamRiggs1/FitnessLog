@@ -160,11 +160,11 @@ namespace FitnessLog.Repositories
                 {
                     cmd.CommandText = @"
                         INSERT INTO UserStrengthWorkout (
-                            us.UserProfileId, us.StrengthWorkoutId,
+                            UserProfileId, StrengthWorkoutId)
 
-                        OUTPUT INSERTED.ID
+                        OUTPUT INSERTED.Id
                         VALUES (
-                            @userProfileId, @userStrengthWorkoutId)";
+                            @userProfileId, @strengthWorkoutId)";
                     cmd.Parameters.AddWithValue("@userProfileId", userStrengthWorkout.UserProfileId);
                     cmd.Parameters.AddWithValue("@strengthWorkoutId", userStrengthWorkout.StrengthWorkoutId);
 
