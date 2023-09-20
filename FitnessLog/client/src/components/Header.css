@@ -1,0 +1,13 @@
+.header {
+    background-color: rgba(255, 255, 255, 0.436);
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+}
+
+.headerItem {
+    display: flex;
+    justify-content: center;
+}

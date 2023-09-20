@@ -4,6 +4,7 @@ const userFoodUrl = '/api/UserFood/GetMyFood/'
 const userFoodsUrl = '/api/UserFood/'
 
 export const getAllFoods = () => {
+    //fetches the getToken function, then inserts a token parameter
     return getToken().then((token) => {
         return fetch(userFoodUrl, {
             method: "GET",

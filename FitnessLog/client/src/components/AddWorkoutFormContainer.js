@@ -6,7 +6,9 @@ import { getAllWorkoutTypes } from "../modules/workoutTypeManager";
 
 export const AddWorkoutFormContainer = () => {
 
+    //set the states for workout types, cardio, and strength workouts
     const [workoutTypes, setWorkoutTypes] = useState([])
+    //for cardio and strength workouts, set the default state to "false"
     const [cardioWorkoutType, setCardioWorkoutType] = useState(false)
     const [strengthWorkoutType, setStrengthWorkoutType] = useState(false)
 
@@ -22,11 +24,10 @@ export const AddWorkoutFormContainer = () => {
     //const strengthWorkoutForm = AddStrengthWorkoutForm();
     //const cardioWorkoutForm = AddCardioWorkoutForm();
 
-    const navigate = useNavigate();
 
 
-
-
+    //create a jsx file where when a number for a corresponding workout type is chosen, a specifc form is rendered conditionally
+    //if one is selected, the setStrengthWorkoutType is true, so the add strength workout form is rendered. if 2 is selected, then the setCArdioWorkoutType is true so that the cardio form is rendered. then create an else statement to where they are both false
     return (<div>
         <h4>Choose Workout Type</h4>
 

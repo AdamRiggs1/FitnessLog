@@ -8,9 +8,13 @@ export const EditCardioWorkoutForm = () => {
     TODO: Add the correct default properties to the
     initial state object
     */
+
+    //invoke the userParams variable to insert the id for the specific cardio workout
     const { cardioWorkoutId } = useParams()
+    //invoke the navigate variable 
     const navigate = useNavigate()
 
+    //set the state for the cardioWorkout with the default key values
     const [cardioWorkout, update] = useState({
         name: "",
         minutes: 0,
@@ -18,6 +22,8 @@ export const EditCardioWorkoutForm = () => {
         typeId: 2,
         id: cardioWorkoutId
     })
+
+    //in the useEffect, get a specific cardio workout and putting in the id of the speciic cardio workout
     useEffect(
         () => {
             getCardioWorkoutbyId(cardioWorkoutId).then(
@@ -34,6 +40,7 @@ export const EditCardioWorkoutForm = () => {
 
         // TODO: Create the object to be saved to the API
 
+        //bring in the update cardio workout function and insert the state for cardio workout
         return updateCardioWorkout(cardioWorkout)
             .then(
                 () => {
@@ -43,7 +50,7 @@ export const EditCardioWorkoutForm = () => {
     }
 
 
-
+    //create a jsx to edit the cardio workout
     return (<>
         <form className="editCardioWorkoutForm">
             <h2 className="editCardioWorkoutForm__title">Edit Cardio Workout</h2>

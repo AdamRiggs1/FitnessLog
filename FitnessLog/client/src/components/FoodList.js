@@ -4,11 +4,13 @@ import { getAllFoods } from "../modules/userFoodManager";
 import { useNavigate } from "react-router-dom";
 
 export const FoodList = () => {
+    //sets the state for the foods eaten by the user
     const [userFoods, setUserFoods] = useState([])
-
+    //creates a navigate variable 
     const navigate = useNavigate();
 
     useEffect(() => {
+        //invoke getAllFoods function then invoke the setUserFoods function
         getAllFoods().then(setUserFoods)
     }, []
     )
@@ -19,7 +21,7 @@ export const FoodList = () => {
                 {userFoods.map((userFood) => (<Food userFood={userFood} key={userFood.id} />))}
             </div>
             <div>
-                <button onClick={() => navigate('/addFoodForm')}>Add Food</button>
+                <button className="food-add-button" onClick={() => navigate('/addFoodForm')}>Add Food</button>
             </div>
         </>
     )

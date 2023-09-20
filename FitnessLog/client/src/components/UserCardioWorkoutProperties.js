@@ -4,8 +4,10 @@ import './WorkoutList.css'
 
 export const UserCardioWorkoutProperties = ({ userCardioWorkout }) => {
 
+    //invoke the navigate function
     const navigate = useNavigate()
 
+    //create a jsx file to iterate through the keys of teh cardioWorkout object
     return (
         <div className="workout-listItem">
             <div>{userCardioWorkout?.cardioWorkout?.name}</div>

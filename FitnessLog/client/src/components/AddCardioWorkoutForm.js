@@ -10,18 +10,16 @@ export const AddCardioWorkoutForm = () => {
     TODO: Add the correct default properties to the
     initial state object
     */
+
+    //invoke the use navigate function
     const navigate = useNavigate()
 
+    //set the state for the cardioWorkout
     const [cardioWorkout, setCardioWorkout] = useState({
         name: "",
         minutes: 0,
         speed: 0,
         typeId: 2,
-    })
-
-    const [userCardioWorkout, setUserCardioWorkout] = useState({
-        userProfileId: 0,
-        cardioWorkoutId: 0
     })
 
 
@@ -34,6 +32,7 @@ export const AddCardioWorkoutForm = () => {
             .then((cardioWorkoutObject) => {
                 me()
                     .then((userProfileObject) => {
+                        //create a userCardioWrokout object that has the idea for the specific userProfile
                         const userCardioWorkout = {
                             userProfileId: userProfileObject.id,
                             cardioWorkoutId: cardioWorkoutObject.id
@@ -41,6 +40,7 @@ export const AddCardioWorkoutForm = () => {
                         addUserCardioWorkout(userCardioWorkout)
 
                     })
+                    //then navigate back to the workout list
                     .then(
                         () => {
                             navigate(`/workoutList`)
@@ -50,7 +50,7 @@ export const AddCardioWorkoutForm = () => {
     }
 
 
-
+    //create a jsx file to add a cardio workout form that will render when it is called
     return (<>
         <form className="addCardioWorkoutForm">
             <h2 className="addCardioWorkoutForm__title">Add Cardio Workout</h2>

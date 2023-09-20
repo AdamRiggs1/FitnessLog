@@ -10,8 +10,11 @@ export const AddFoodForm = () => {
     TODO: Add the correct default properties to the
     initial state object
     */
+
+    //invoke the navigate function
     const navigate = useNavigate()
 
+    //set the food state with the appropriate keys
     const [food, setFood] = useState({
         name: "",
         calories: 0,
@@ -26,10 +29,13 @@ export const AddFoodForm = () => {
 
         // TODO: Create the object to be saved to the API
 
+        //invoke the add food function and put in the food state as the parameter
         return addFood(food)
+            //then put in the foodObject as the parameter for the specific user
             .then((foodObject) => {
                 me()
                     .then((userProfileObject) => {
+                        //make a new state for food from a specifc user
                         const userFood = {
                             userProfileId: userProfileObject.id,
                             foodId: foodObject.id
@@ -37,6 +43,7 @@ export const AddFoodForm = () => {
                         addUserFood(userFood)
 
                     })
+                    //then navigate back to the food list
                     .then(
                         () => {
                             navigate(`/foodList`)
@@ -46,7 +53,7 @@ export const AddFoodForm = () => {
     }
 
 
-
+    //make a jsx file to for a form to add a food object
     return (<>
         <form className="addFoodForm">
             <h2 className="addFoodForm__title">Add Food</h2>

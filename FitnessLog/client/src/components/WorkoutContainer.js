@@ -21,7 +21,7 @@ export const WorkoutContainer = () => {
             {CardioWorkout}
         </div>
         <div className="workout-listButton">
-            <button onClick={() => navigate('/workoutFormContainer')}>Add Workout</button>
+            <button className="workout-add-button" onClick={() => navigate('/workoutFormContainer')}>Add Workout</button>
         </div>
     </div>
     )

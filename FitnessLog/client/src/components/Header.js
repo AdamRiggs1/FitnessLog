@@ -10,15 +10,16 @@ import {
     NavLink
 } from 'reactstrap';
 import { logout } from '../modules/authManager';
+import "./Header.css"
 
 export default function Header({ isLoggedIn }) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => setIsOpen(!isOpen);
 
     return (
-        <div>
+        <div className="header">
             <Navbar color="light" light expand="md">
-                <NavbarBrand tag={RRNavLink} to="/">FitnessLog
+                <NavbarBrand className="title" tag={RRNavLink} to="/">FitnessLog
                 </NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
@@ -26,18 +27,16 @@ export default function Header({ isLoggedIn }) {
                         { /* When isLoggedIn === true, we will render the Home link */}
                         {isLoggedIn &&
                             <>
-                                <NavItem>
+                                <NavItem className="headerItem">
                                     <NavLink tag={RRNavLink} to="/">Home</NavLink>
                                 </NavItem>
-                                <NavItem>
+                                <NavItem className="headerItem">
                                     <NavLink tag={RRNavLink} to="/workoutList">Workout List</NavLink>
                                 </NavItem>
-                                <NavItem>
+                                <NavItem className="headerItem">
                                     <NavLink tag={RRNavLink} to="/foodList">Food List</NavLink>
                                 </NavItem>
-                                <NavItem>
-                                    <NavLink tag={RRNavLink} to="/videoList">Video List</NavLink>
-                                </NavItem>
+
 
                             </>
                         }
@@ -45,7 +44,7 @@ export default function Header({ isLoggedIn }) {
                     <Nav navbar>
                         {isLoggedIn &&
                             <>
-                                <NavItem>
+                                <NavItem className="headerItem">
                                     <a aria-current="page" className="nav-link"
                                         style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
                                 </NavItem>

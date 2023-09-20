@@ -10,8 +10,11 @@ export const AddStrengthWorkoutForm = () => {
     TODO: Add the correct default properties to the
     initial state object
     */
+
+    //invoke the navigate function
     const navigate = useNavigate()
 
+    //set the state for strengthWorkout with the appropriate keys
     const [strengthWorkout, setStrengthWorkout] = useState({
         name: "",
         reps: 0,
@@ -29,9 +32,12 @@ export const AddStrengthWorkoutForm = () => {
 
         // TODO: Create the object to be saved to the API
 
+        //invoke the addStrengthWorkout function function and insert the strengthWorkout state
         return addStrengthWorkout(strengthWorkout)
             .then((strengthWorkoutObject) => {
+                //then invoke the imported me function to get the currentn user 
                 me()
+                    //then put the userProfileObject as the parameter, make a new state for the userSTrengthWorkout with userRfileId and strengthWorkoutId key
                     .then((userProfileObject) => {
                         const userStrengthWorkout = {
                             userProfileId: userProfileObject.id,
@@ -40,6 +46,7 @@ export const AddStrengthWorkoutForm = () => {
                         addUserStrengthWorkout(userStrengthWorkout)
 
                     })
+                    //then navigate back to the workout list
                     .then(
                         () => {
                             navigate(`/workoutList`)
